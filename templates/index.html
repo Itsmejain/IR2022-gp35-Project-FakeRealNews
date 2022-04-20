@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+  <title>Hello, world!</title>
+  <style>
+    h1 {
+      display: block;
+      font-size: 2em;
+      margin-block-start: 0.67em;
+      margin-block-end: 0.67em;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      font-weight: bold;
+      color: rgb(241, 241, 241);
+      text-align: center;
+      width: 100%;
+    }
+    h3,h2 {
+      display: block;
+      font-size: 1.5em;
+      margin-block-start: 0.67em;
+      margin-block-end: 0.67em;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      font-weight: bold;
+      color: rgb(241, 241, 241);
+      text-align: center;
+      width: 100%;
+    }
+    .textareaclass {
+      background-color: rgb(26, 35, 82);
+
+      font-size: large;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      color: aliceblue;
+    }
+
+    .container {
+	max-width: 1000px;
+	margin-right:auto;
+	margin-left:auto;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	min-height:100vh;
+}
+
+
+    .textareabackgroundclass {
+      background-color: rgb(142, 151, 151);
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .buttondiv {
+      /* background-color: rgb(142, 151, 151); */
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .bodyclass {
+      background-color: black;
+    }
+  </style>
+
+
+</head>
+
+<body class="bodyclass" id="fullbody">
+  
+
+
+  <nav class="navbar" style="background-color: #1f2c35;">
+    <div class="container-fluid">
+      <h1> FAKE NEWS DETECTION AND NEWS RECOMMENDATION</h1>
+
+    </div>
+  </nav>
+
+  <!---------------------------->
+  <div class="textareabackgroundclass">
+    <!-- <textarea class="textareaclass">asdas</textarea> -->
+    <form action="/classification" method="POST" style="display: inline;" id="textform">
+
+      <!-- <textarea id="newsval" name = "newsval" class="textareaclass" id="field" placeholder="Enter News Here..." rows="15" cols="170">{% if text %}{{text}}{% endif %}</textarea> -->
+      <textarea id="newsval" name = "newsval" class="textareaclass" id="field" placeholder="Enter News Here..." rows="15" cols="170">{{text}}</textarea>
+      
+      <!-- <input class="btn btn-primary btn-lg form-horizontal"  type="submit" value="Validate"/> -->
+
+    </form>
+  </div>
+  <!---------------------------->
+  <!-- <table  class="buttondiv" >
+    <tr>
+      <td>
+        <form action="/r" method="GET">
+          <input class="btn btn-primary btn-lg form-horizontal"  type="submit" value="Generate"/>
+        </form>
+      </td>
+      <td>
+        <form action="/r" method="GET">
+          <input class="btn btn-primary btn-lg form-horizontal"  type="submit" value="Generate"/>
+        </form>
+      </td>
+    </tr>
+  </table> -->
+  <div class="buttondiv form-horizontal">
+    <form method=post enctype=multipart/form-data action="/upload" method="POST" style="display: inline;">
+      <input type=file name=file class="btn btn-primary btn-lg form-horizontal">
+      <input type="submit" value="Upload Image" class="btn btn-primary btn-lg form-horizontal">
+    </form>
+
+    <form action="/r" method="GET" style="display: inline;"}>
+      <input class="btn btn-primary btn-lg form-horizontal"  type="submit" value="Generate Random News"/>
+    </form>
+
+    <!-- <form action="/classification" method="GET" style="display: inline;" }> -->
+      <!-- <input class="btn btn-primary btn-lg form-horizontal"  type="submit" value="Validate"/> -->
+      <button type='button' class="btn btn-primary btn-lg form-horizontal" onClick='submit()' id="validatebutton">Predict</button>
+    <!-- </form> -->
+
+    <form action="/" method="GET" style="display: inline;" }>
+      <input class="btn btn-primary btn-lg form-horizontal"  type="submit" value="Clear"/>
+    </form>
+
+  </div>
+  <!------------------->
+
+
+  <div class="buttondiv" >
+    <h1 id="realfake">REAL/FAKE</h1>
+  </div>
+   
+  <div class="buttondiv">
+    <button type="button" class="btn btn-primary btn-lg form-horizontal" onClick='recommend_submit()' id="recommendbutton">Recommend News</button>
+  </div>
+
+  <div>
+    <h1 id="recom"> RECOMMENDATION</h1>
+    
+    <!-- <table> -->
+      {% for news in newslist %} 
+        <!-- <tr > -->
+          <!-- <td > -->
+            <h2>
+            <p href="#">{{ news }}</p>
+          </h2>
+          <!-- </td> -->
+        <!-- </tr>   -->
+       
+      {% endfor %} 
+      
+      <!-- </table> -->
+
+  </div>
+ 
+ 
+
+
+<script type="text/javascript">
+  function submit() {
+    const URL = '/classification'
+    const xhr = new XMLHttpRequest();
+    var data = document.getElementById("newsval").value;
+    console.log(data);
+    xhr.onreadystatechange = function() {
+    if (xhr.readyState == XMLHttpRequest.DONE) {
+        // alert(xhr.responseText);
+        console.log(xhr.responseText);
+        document.getElementById("realfake").innerHTML = xhr.responseText;
+      
+    }
+}
+    xhr.open('POST', URL);
+    xhr.send(data);
+    console.log(xhr.response);
+    
+    }
+
+    function recommend_submit() {
+    // alert('RECOMMEND CLICKED');
+    const URL = '/recommendation'
+    const xhr = new XMLHttpRequest();
+    var data = document.getElementById("newsval").value;
+    console.log(data);
+    xhr.onreadystatechange = function() {
+    if (xhr.readyState == XMLHttpRequest.DONE) {
+        //  alert(xhr.responseText);
+        console.log(xhr.responseText);
+        document.getElementById("fullbody").innerHTML = xhr.responseText;
+      
+    }
+}
+    xhr.open('POST', URL);
+    xhr.send(data);
+    console.log(xhr.response);
+    
+    }
+
+  </script> 
+</body>
+
+</html>
