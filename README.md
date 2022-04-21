@@ -2,6 +2,7 @@
 IR 20222 - Project Repository - FAKE REAL News Classification and Recommendation System
 IR 2022 <br>
 News Detection of Fake News and Similar News Recommendation System<br>
+https://ir-2022-fakerealnewsandrecom.herokuapp.com/ <br>
 <br>
 Group 35<br>
 Shubham Jain MT21091 <br>
