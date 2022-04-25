@@ -3,6 +3,8 @@
 IR 2022 <br>
 News Detection of Fake News and Similar News Recommendation System<br>
 https://ir-2022-fakerealnewsandrecom.herokuapp.com/ <br>
+
+Github for baseline dataset and models :https://github.com/RonakChhajed/IR2022_Project_35 <br> 
 <br>
 # Group 35<br>
 <pre>
